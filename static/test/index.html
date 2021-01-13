@@ -1,0 +1,239 @@
+<html>
+<head>
+	<title>文哥测号器（改）</title>
+	<style type="text/css">
+		.main{
+			display: flex;
+			flex-direction: row;
+			width:100%;
+			height:100%;
+		}
+		div.w300{
+			margin:10px;
+			margin-top:0px;
+			width:350px;
+			height:100%;
+		}
+		div.w300>*{
+			margin-top:10px;
+			width:100%;
+		}
+		div.a100>input{
+			width:100%;
+		}
+		select{
+			width:100%;
+		}
+		textarea{
+			width:100%;
+			min-height:500px;
+		}
+	</style>
+	<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+	<script>
+		var M=8,C=0,delay=1,all=0,gsize=100,mode,cur=0,threshold,upgrade=false,quc=0;
+		var pre="",suf="",team="";
+		var stk=[[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]];
+		var stat=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+		var is=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+		var res=["","","","","","","","","","","","","","","",""];
+		var result_all="";
+		function chk() {
+			var W=function(n){return document.querySelectorAll('iframe')[n].contentWindow};
+			var G=function(){
+				var s="!test!\n\n";
+				if(mode=="hanzi"){
+					for(var i=1;i<=gsize;i++){
+						var t="";
+						for(var j=1;j<=3;j++)t+=unescape("%u"+Number(Math.floor(Math.random()*(0x9fa5-0x4e00)+0x4e00)).toString(16));
+						s+=pre+t+suf+"@"+team+"\n";
+					}
+				}
+				else if(mode=="digit"){
+					var s="!test!\n\n";
+					s+=pre+cur+"???"+suf+"@"+team+"\n";
+					cur++;
+				}
+				else if(mode=="alnum8a"){
+					for(var i=1;i<=gsize;i++){
+						var t="";
+						for(var j=1;j<=8;j++)t+="1234567890qwertyuiopasdfghjklzxcvbnm"[Math.floor(Math.random()*36)];
+						s+=pre+t+suf+"@"+team+"\n";
+					}
+				}
+				else if(mode=="alnum8b"){
+					for(var i=1;i<=gsize;i++){
+						var t="";
+						for(var j=1;j<=8;j++)t+="1234567890QWERTYUIOPASDFGHJKLZXCVBNM"[Math.floor(Math.random()*36)];
+						s+=pre+t+suf+"@"+team+"\n";
+					}
+				}
+				else if(mode=="alnum16a"){
+					for(var i=1;i<=gsize;i++){
+						var t="";
+						for(var j=1;j<=16;j++)t+="1234567890qwertyuiopasdfghjklzxcvbnm"[Math.floor(Math.random()*36)];
+						s+=pre+t+suf+"@"+team+"\n";
+					}
+				}
+				else if(mode=="alnum16b"){
+					for(var i=1;i<=gsize;i++){
+						var t="";
+						for(var j=1;j<=16;j++)t+="1234567890QWERTYUIOPASDFGHJKLZXCVBNM"[Math.floor(Math.random()*36)];
+						s+=pre+t+suf+"@"+team+"\n";
+					}
+				}
+				return s;
+			}
+			var x=C;C++;if(C==M)C=0;
+
+			if(stat[x]==0) {
+				var s=G();
+				W(x).document.querySelector("#textdiv>textarea").value=s;
+				W(x).document.querySelector(".goBtn").click();
+				stat[x]=1;
+				is[x]=1;
+			} else if(stat[x]==1&&W(x).cw().document.querySelectorAll("span.u").length>=2) {
+				var a=W(x).cw().document.querySelectorAll(".s_elite3");
+				var n=a.length;
+				for(var i=0; i<n; i++) {
+					stk[x].push(a[i].parentElement.previousElementSibling.textContent);
+				}
+				//console.log(names);
+				all+=gsize;
+				stat[x]=2;
+				is[x]=0;
+				quc+=gsize/1000;
+				document.querySelector(".count").value=all;
+				document.querySelector(".quc").value=quc;
+			} else {
+				if(is[x]==0) {
+					if(stk[x].length!=0) {
+						var s=stk[x][stk[x].length-1];
+						res[x]=s+" ";
+						var t="!test!\n";
+						if(upgrade==true)t+="!\n";
+						W(x).document.querySelector("#textdiv>textarea").value=t+"\n"+s;
+						W(x).document.querySelector(".goBtn").click();
+						is[x]=1;
+						stk[x].pop();
+					} else {
+						stat[x]=0;
+					}
+				} else {
+					var a=W(x).cw().document.querySelectorAll("span.u");
+					var n=a.length;
+					if(n)if(a[n-1].textContent.search(/实力评估中...[1-9][1-9]%/)!=-1) {
+						var score=W(x).cw().document.querySelectorAll("span.u")[10].textContent.split(" ")[2];
+						res[x]+=score+"\n";
+						console.log(res[x]);
+						is[x]=0;
+						if(parseInt(score)>=parseInt(threshold)){
+							result_all+=res[x];
+							document.querySelector(".result").value=result_all;
+						}
+					}
+				}
+			}
+		}
+		var si,asi;
+		function start(){
+			team=document.querySelector(".team").value;
+			pre=document.querySelector(".pre").value;
+			M=document.querySelector(".number").value;
+			delay=document.querySelector(".delay").value;
+			suf=document.querySelector(".suf").value;
+			mode=document.querySelector(".mode").value;
+			threshold=document.querySelector(".threshold").value;
+			upgrade=document.querySelector(".upgrade").checked;
+			document.querySelector(".start").disabled=true;
+			
+			for(var i=1;i<=M;i++){
+				var NW = document.createElement('iframe'); 
+				NW.src="https://namerena.memset0.cn";  
+				NW.hidden=true;
+				document.body.appendChild(NW);
+			}
+			setTimeout(function(){ si=setInterval(function(){chk()},delay*1000) },document.querySelector(".timeout").value*1000);
+			if(document.querySelector(".autosave").checked==true){
+				setTimeout(function(){ asi=setInterval(function(){save()},10*60*1000) },10*60*1000);
+			}
+		}
+		function save(){
+			var data=result_all;
+			var name=((new Date()).toLocaleDateString() + (new Date()).toLocaleTimeString()).replace(/ *[:\/]/g,"_")+".txt";
+			var urlObject = window.URL || window.webkitURL || window;
+			var export_blob = new Blob([data]);
+			var save_link = document.createElementNS("http://www.w3.org/1999/xhtml", "a");
+			save_link.href = urlObject.createObjectURL(export_blob);
+			save_link.download = name;
+			var ev = document.createEvent("MouseEvents");
+			ev.initMouseEvent("click", true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+			save_link.dispatchEvent(ev);
+		}
+		function generate_quc(){
+			var value=quc+"";
+			quc=0;
+			document.querySelector(".quc").value=quc;
+			var time = (new Date()).valueOf();
+			document.querySelector(".quc_value").value=value;
+			document.querySelector(".quc_timestamp").value=time;
+			document.querySelector(".quc_password").value=md5(value+time);
+		}
+		function verify_quc(){
+			var value=document.querySelector(".vquc_value").value;
+			var time =document.querySelector(".vquc_timestamp").value;
+			var password=document.querySelector(".vquc_password").value;
+			if(md5(value+time)==password)document.querySelector(".vquc_result").value="通过";
+			else document.querySelector(".vquc_result").value="未通过";
+		}
+	</script>
+</head>
+<body>
+	<div class="main">
+		<div class="w300 settings">
+			<div class="a100">战队<input type="text" class="team" value="hzez"></input></div>
+			<div class="a100">前缀<input type="text" class="pre" value=""></input></div>
+			<div class="a100">后缀<input type="text" class="suf" value=""></input></div>
+			<div class="a100">模式
+				<select class="mode">
+					<option selected="selected" value="alnum8a">随机的8个数字和小写字母</option>
+					<option value="alnum8b">随机的8个数字和大写字母</option>
+					<option value="alnum16a">随机的16个数字和小写字母</option>
+					<option value="alnum16b">随机的16个数字和大写字母</option>
+					<option value="hanzi">3个随机汉字</option>
+					<option value="digit">从0开始的数字</option>
+				</select>
+			</div>
+			<div class="a100">多开（1-16）<input type="text" class="number" value="8"></input></div>
+			<div class="a100">最低评分（粗评低于这个评分的名字将会被丢弃）<input type="text" class="threshold" value="6000"></input></div>
+			<div class="a100">检查时间（秒）<input type="text" class="delay" value="1"></input></div>
+			<div class="a100">开始延迟（秒）<input type="text" class="timeout" value="10"></input></div>
+			<!--<div><input type="checkbox" class="elite2" value="elite2">评测2级号（暂未更新）</input></div>-->
+			<div><input type="checkbox" class="upgrade" value="upgrade">将普评替换为强评</input></div>
+			<div><input type="checkbox" class="autosave" value="autosave">每隔10分钟自动下载结果</input></div>
+		</div>
+		<div style="float:left;margin:10px;margin-top: 20px;width: 1px;height: 90%; background: darkgray;"></div> 
+		<div class="w300 settings">
+			<div class="a100">当前可导出的量子币（QUC）数量<input type="text" class="quc" value="0" readonly></input></div>
+			<button onclick="generate_quc()" class="generate_quc">生成QUC</button>
+			<div class="a100">QUC价值<input type="text" class="quc_value" value="" readonly></input></div>
+			<div class="a100">QUC时间<input type="text" class="quc_timestamp" value="" readonly></input></div>
+			<div class="a100">QUC密码<input type="text" class="quc_password" value="" readonly></input></div>
+			
+			<div class="a100">QUC验证：</div>
+			<div class="a100">QUC价值<input type="text" class="vquc_value" value=""></input></div>
+			<div class="a100">QUC时间<input type="text" class="vquc_timestamp" value=""></input></div>
+			<div class="a100">QUC密码<input type="text" class="vquc_password" value=""></input></div>
+			<button onclick="verify_quc()" class="verify_quc">验证QUC</button>
+			<div class="a100">验证结果<input type="text" class="vquc_result" value="" readonly></input></div>
+		</div>
+		<div style="float:left;margin:10px;margin-top: 20px;width: 1px;height: 90%; background: darkgray;"></div> 
+		<div class="w300 res">
+			<button onclick="start()" class="start">开始</button>
+			<div class="a100">测号计数<input type="text" class="count" value="0" readonly></input></div>
+			<div class="a100">结果</div>
+			<button onclick="save()" class="save">下载结果</button>
+			<textarea class="result" placeholder="结果将会显示在这里" readonly></textarea>
+		</div>
+	</div>
+</html>
