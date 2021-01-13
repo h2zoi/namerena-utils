@@ -1,5 +1,5 @@
-copy æµ‹å·å™¨\index.html static\test.html
-copy æµ‹å·å™¨\index.html static\test\index.html
+copy ²âºÅÆ÷\index.html static\test.html
+copy ²âºÅÆ÷\index.html static\test\index.html
 
 git pull
 git add .
