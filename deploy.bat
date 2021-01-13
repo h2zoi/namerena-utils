@@ -1,5 +1,3 @@
-node upload.js
-cd dist
 git pull
 git add .
 git commit -m "upd"
