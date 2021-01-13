@@ -1,6 +1,6 @@
 <html>
 <head>
-	<title>文哥测号器（改）</title>
+	<title>�ĸ��������ģ�</title>
 	<style type="text/css">
 		.main{
 			display: flex;
@@ -122,7 +122,7 @@
 				} else {
 					var a=W(x).cw().document.querySelectorAll("span.u");
 					var n=a.length;
-					if(n)if(a[n-1].textContent.search(/实力评估中...[1-9][1-9]%/)!=-1) {
+					if(n)if(a[n-1].textContent.search(/ʵ��������...[1-9][1-9]%/)!=-1) {
 						var score=W(x).cw().document.querySelectorAll("span.u")[10].textContent.split(" ")[2];
 						res[x]+=score+"\n";
 						console.log(res[x]);
@@ -183,57 +183,57 @@
 			var value=document.querySelector(".vquc_value").value;
 			var time =document.querySelector(".vquc_timestamp").value;
 			var password=document.querySelector(".vquc_password").value;
-			if(md5(value+time)==password)document.querySelector(".vquc_result").value="通过";
-			else document.querySelector(".vquc_result").value="未通过";
+			if(md5(value+time)==password)document.querySelector(".vquc_result").value="ͨ��";
+			else document.querySelector(".vquc_result").value="δͨ��";
 		}
 	</script>
 </head>
 <body>
 	<div class="main">
 		<div class="w300 settings">
-			<div class="a100">战队<input type="text" class="team" value="hzez"></input></div>
-			<div class="a100">前缀<input type="text" class="pre" value=""></input></div>
-			<div class="a100">后缀<input type="text" class="suf" value=""></input></div>
-			<div class="a100">模式
+			<div class="a100">ս��<input type="text" class="team" value="hzez"></input></div>
+			<div class="a100">ǰ׺<input type="text" class="pre" value=""></input></div>
+			<div class="a100">��׺<input type="text" class="suf" value=""></input></div>
+			<div class="a100">ģʽ
 				<select class="mode">
-					<option selected="selected" value="alnum8a">随机的8个数字和小写字母</option>
-					<option value="alnum8b">随机的8个数字和大写字母</option>
-					<option value="alnum16a">随机的16个数字和小写字母</option>
-					<option value="alnum16b">随机的16个数字和大写字母</option>
-					<option value="hanzi">3个随机汉字</option>
-					<option value="digit">从0开始的数字</option>
+					<option selected="selected" value="alnum8a">�����8�����ֺ�Сд��ĸ</option>
+					<option value="alnum8b">�����8�����ֺʹ�д��ĸ</option>
+					<option value="alnum16a">�����16�����ֺ�Сд��ĸ</option>
+					<option value="alnum16b">�����16�����ֺʹ�д��ĸ</option>
+					<option value="hanzi">3���������</option>
+					<option value="digit">��0��ʼ������</option>
 				</select>
 			</div>
-			<div class="a100">多开（1-16）<input type="text" class="number" value="8"></input></div>
-			<div class="a100">最低评分（粗评低于这个评分的名字将会被丢弃）<input type="text" class="threshold" value="6000"></input></div>
-			<div class="a100">检查时间（秒）<input type="text" class="delay" value="1"></input></div>
-			<div class="a100">开始延迟（秒）<input type="text" class="timeout" value="10"></input></div>
-			<!--<div><input type="checkbox" class="elite2" value="elite2">评测2级号（暂未更新）</input></div>-->
-			<div><input type="checkbox" class="upgrade" value="upgrade">将普评替换为强评</input></div>
-			<div><input type="checkbox" class="autosave" value="autosave">每隔10分钟自动下载结果</input></div>
+			<div class="a100">�࿪��1-16��<input type="text" class="number" value="8"></input></div>
+			<div class="a100">������֣���������������ֵ����ֽ��ᱻ������<input type="text" class="threshold" value="6000"></input></div>
+			<div class="a100">���ʱ�䣨�룩<input type="text" class="delay" value="1"></input></div>
+			<div class="a100">��ʼ�ӳ٣��룩<input type="text" class="timeout" value="10"></input></div>
+			<!--<div><input type="checkbox" class="elite2" value="elite2">����2���ţ���δ���£�</input></div>-->
+			<div><input type="checkbox" class="upgrade" value="upgrade">�������滻Ϊǿ��</input></div>
+			<div><input type="checkbox" class="autosave" value="autosave">ÿ��10�����Զ����ؽ��</input></div>
 		</div>
 		<div style="float:left;margin:10px;margin-top: 20px;width: 1px;height: 90%; background: darkgray;"></div> 
 		<div class="w300 settings">
-			<div class="a100">当前可导出的量子币（QUC）数量<input type="text" class="quc" value="0" readonly></input></div>
-			<button onclick="generate_quc()" class="generate_quc">生成QUC</button>
-			<div class="a100">QUC价值<input type="text" class="quc_value" value="" readonly></input></div>
-			<div class="a100">QUC时间<input type="text" class="quc_timestamp" value="" readonly></input></div>
-			<div class="a100">QUC密码<input type="text" class="quc_password" value="" readonly></input></div>
+			<div class="a100">��ǰ�ɵ��������ӱң�QUC������<input type="text" class="quc" value="0" readonly></input></div>
+			<button onclick="generate_quc()" class="generate_quc">����QUC</button>
+			<div class="a100">QUC��ֵ<input type="text" class="quc_value" value="" readonly></input></div>
+			<div class="a100">QUCʱ��<input type="text" class="quc_timestamp" value="" readonly></input></div>
+			<div class="a100">QUC����<input type="text" class="quc_password" value="" readonly></input></div>
 			
-			<div class="a100">QUC验证：</div>
-			<div class="a100">QUC价值<input type="text" class="vquc_value" value=""></input></div>
-			<div class="a100">QUC时间<input type="text" class="vquc_timestamp" value=""></input></div>
-			<div class="a100">QUC密码<input type="text" class="vquc_password" value=""></input></div>
-			<button onclick="verify_quc()" class="verify_quc">验证QUC</button>
-			<div class="a100">验证结果<input type="text" class="vquc_result" value="" readonly></input></div>
+			<div class="a100">QUC��֤��</div>
+			<div class="a100">QUC��ֵ<input type="text" class="vquc_value" value=""></input></div>
+			<div class="a100">QUCʱ��<input type="text" class="vquc_timestamp" value=""></input></div>
+			<div class="a100">QUC����<input type="text" class="vquc_password" value=""></input></div>
+			<button onclick="verify_quc()" class="verify_quc">��֤QUC</button>
+			<div class="a100">��֤���<input type="text" class="vquc_result" value="" readonly></input></div>
 		</div>
 		<div style="float:left;margin:10px;margin-top: 20px;width: 1px;height: 90%; background: darkgray;"></div> 
 		<div class="w300 res">
-			<button onclick="start()" class="start">开始</button>
-			<div class="a100">测号计数<input type="text" class="count" value="0" readonly></input></div>
-			<div class="a100">结果</div>
-			<button onclick="save()" class="save">下载结果</button>
-			<textarea class="result" placeholder="结果将会显示在这里" readonly></textarea>
+			<button onclick="start()" class="start">��ʼ</button>
+			<div class="a100">��ż���<input type="text" class="count" value="0" readonly></input></div>
+			<div class="a100">���</div>
+			<button onclick="save()" class="save">���ؽ��</button>
+			<textarea class="result" placeholder="���������ʾ������" readonly></textarea>
 		</div>
 	</div>
 </html>
